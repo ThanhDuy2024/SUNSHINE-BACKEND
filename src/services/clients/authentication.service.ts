@@ -1,5 +1,5 @@
 import { loginDto, registerDto } from "../../dto/authentication.dto";
-import { hashPassword } from "../../helpers/bcript.helper";
+import { hashPassword, verifyPassword } from "../../helpers/bcript.helper";
 import { sendOtpByEmail } from "../../helpers/nodemailer.helper";
 import { generateRandomString } from "../../helpers/randomString.helper";
 import { Otp } from "../../Models/Otp.model";
@@ -56,6 +56,32 @@ export const verifyOtp = async (otp: string) => {
 
         await checkOtp.deleteOne();
         return true;
+    } catch (error) {
+        console.log(error);
+        return false
+    }
+}
+
+export const loginService = async (data: loginDto) => {
+    try {
+        const account = await Users.findOne({
+            where: {
+                email: data.email,
+            }
+        });
+
+        if(!account) {
+            return false;
+        };
+
+        const checkPassword = verifyPassword(data.password, account.dataValues.password);
+
+        if(checkPassword === false) {
+            return false;
+        };
+
+        return account.dataValues;
+
     } catch (error) {
         console.log(error);
         return false
