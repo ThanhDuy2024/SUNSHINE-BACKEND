@@ -1,4 +1,4 @@
-import { loginDto, registerDto } from "../../dto/authentication.dto";
+import { loginDto, profileDto, registerDto } from "../../dto/authentication.dto";
 import { hashPassword, verifyPassword } from "../../helpers/bcript.helper";
 import { sendOtpByEmail } from "../../helpers/nodemailer.helper";
 import { generateRandomString } from "../../helpers/randomString.helper";
@@ -85,5 +85,36 @@ export const loginService = async (data: loginDto) => {
     } catch (error) {
         console.log(error);
         return false
+    }
+}
+
+export const profileService = async (data: profileDto, id: number) => {
+    try {
+        const account = await Users.findOne({
+            where: {
+                id: id,
+            }
+        });
+
+        if(!account) {
+            return false
+        }
+
+        if(account.dataValues.email != data.email) {
+            const checkEmail = await Users.findOne({
+                where: {
+                    email: data.email,
+                }
+            });
+
+            if(checkEmail) {
+                return false
+            }
+        }
+        await account.update(data);
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 }

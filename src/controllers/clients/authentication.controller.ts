@@ -1,6 +1,8 @@
-import { loginDto, registerDto } from "../../dto/authentication.dto";
+import { loginDto, profileDto, registerDto } from "../../dto/authentication.dto";
 import { Req, Res } from "../../interfaces/reqAndReq.interface";
-import { loginService, registerService, verifyOtp } from "../../services/clients/authentication.service";
+import { user } from "../../interfaces/user.interface";
+import { Users } from "../../Models/Users.model";
+import { loginService, profileService, registerService, verifyOtp } from "../../services/clients/authentication.service";
 import jwt from 'jsonwebtoken';
 export const registerController = async (req: Req, res: Res) => {
     try {
@@ -54,7 +56,7 @@ export const otpReceiveController = async (req: Req, res: Res) => {
 export const loginController = async (req: Req, res: Res) => {
     try {
         const data: loginDto = req.body;
-        const bool: any = loginService(data);
+        const bool: any = await loginService(data);
 
         if (bool === false) {
             return res.status(404).json({
@@ -85,4 +87,64 @@ export const loginController = async (req: Req, res: Res) => {
             message: "Email or password incorrected!"
         })
     }
+}
+
+export const getProfileController = async (req: user, res: Res) => {
+    try {
+        const account = await Users.findOne({
+            attributes: { exclude: ['password'] },
+            where: {
+                id: req.user.id,
+            }
+        })
+        res.status(200).json({
+            code: "success",
+            data: account?.dataValues
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            code: "error",
+            message: "Invalid token!"
+        })
+    }
+}
+
+export const putProfileController = async (req: user, res: Res) => {
+    try {
+        if(req.file) {
+            req.body.image = req.file.path;
+        } else {
+            delete req.body.image;
+        }
+        const data: profileDto = req.body;
+
+        const bool: any = profileService(data, req.user.id);
+
+        if (bool === false) {
+            return res.status(400).json({
+                code: "error",
+                message: "Invalid token!"
+            })
+        };
+
+        res.status(200).json({
+            code: "success",
+            message: "profile update successfully!"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({
+            code: "error",
+            message: "Invalid token!"
+        })
+    }
+}
+
+export const logoutController = async (req: user, res: Res) => {
+    res.clearCookie('userToken');
+    res.status(200).json({
+        code: "success",
+        message: "Logout successfully!"
+    })
 }

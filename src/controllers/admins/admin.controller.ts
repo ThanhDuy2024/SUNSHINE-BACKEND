@@ -115,3 +115,11 @@ export const putProfileController = async (req: admin, res: Res) => {
         })
     }
 }
+
+export const logoutController = (req: admin, res: Res) => {
+    res.clearCookie('adminToken')
+    res.status(200).json({
+        code: "success",
+        message: "Logout successfully!"
+    })
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { getProfileController, loginController, putProfileController, registerController } from "../../controllers/admins/admin.controller";
+import { getProfileController, loginController, logoutController, putProfileController, registerController } from "../../controllers/admins/admin.controller";
 import { adminMiddleware } from "../../middlewares/admins/admins.middleware";
 import multer from "multer";
 import { storage } from "../../helpers/cloudinary.helper";
@@ -11,4 +11,5 @@ route.post('/register', registerController);
 route.post('/login', loginController);
 route.get('/profile', adminMiddleware, getProfileController);
 route.put('/profile', adminMiddleware, upload.single('image'), putProfileController);
+route.get('/logout', adminMiddleware, logoutController);
 export default route;
