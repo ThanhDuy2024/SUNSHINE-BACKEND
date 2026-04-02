@@ -26,6 +26,10 @@ export const Users = sequelize.define("users", {
         type: DataTypes.STRING,
         defaultValue: 'active',
     },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 }, {
     timestamps: true,
 })

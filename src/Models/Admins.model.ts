@@ -15,7 +15,7 @@ export const Admin = sequelize.define('Admins', {
         allowNull: false
     },
     phone: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true
     },
     address: {

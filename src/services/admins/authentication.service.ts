@@ -1,4 +1,4 @@
-import { loginDto, registerDto } from "../../dto/authentication.dto";
+import { loginDto, profileDto, registerDto } from "../../dto/authentication.dto";
 import { hashPassword, verifyPassword } from "../../helpers/bcript.helper";
 import { Admin } from "../../Models/Admins.model";
 
@@ -35,6 +35,7 @@ export const loginService = async (data: loginDto) => {
         const account = await Admin.findOne({
             where: {
                 email: data.email,
+                status: 'active',
             }
         });
 
@@ -52,6 +53,38 @@ export const loginService = async (data: loginDto) => {
 
     } catch (error) {
         console.log(error);
+        return false
+    }
+}
+
+export const profileService = async (data: profileDto, id: number) => {
+    try {
+        const account = await Admin.findOne({
+            where: {
+                id: id,
+            }
+        });
+
+        if(!account) {
+            return false
+        };
+
+        if(account.dataValues.email != data.email) {
+            const checkEmail = await Admin.findOne({
+                where: {
+                    email: data.email,
+                }
+            })
+
+            if(checkEmail) {
+                return false
+            }
+        }
+
+        await account.update(data);
+        return true
+    } catch (error) {
+        console.log(error)
         return false
     }
 }
