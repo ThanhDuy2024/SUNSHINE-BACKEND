@@ -1,7 +1,8 @@
 import { categoryDto, categoryFilterDto } from "../../dto/categories.dto";
 import { admin } from "../../interfaces/admin.interface";
 import { Res } from "../../interfaces/reqAndReq.interface";
-import { getAllCategoryService, postCategoryService } from "../../services/admins/categories.service";
+import { deleteCategoryService, getAllCategoryService, getCategoryService, postCategoryService, putCategoryService } from "../../services/admins/categories.service";
+import { deleteAgentService } from "../../services/agents/agentManage.service";
 
 export const postCategory = async (req: admin, res: Res) => {
     try {
@@ -62,9 +63,24 @@ export const getAllCategory = async (req: admin, res: Res) => {
 
 export const putCategory = async (req: admin, res: Res) => {
     try {
+        if (req.file) {
+            req.body.image = req.file.path;
+        } else {
+            delete req.body.image
+        };
+        const data: categoryDto = req.body;
+        const bool: any = await putCategoryService(data, Number(req.params.id), req.admin.id);
+
+        if (bool === false) {
+            res.status(400).json({
+                code: "error",
+                message: "A category update fail!"
+            })
+        };
+
         res.status(200).json({
             code: "success",
-            message: "A category create successfully!"
+            message: "A category update successfully!"
         })
     } catch (error) {
         console.log(error)
@@ -77,9 +93,18 @@ export const putCategory = async (req: admin, res: Res) => {
 
 export const getCategory = async (req: admin, res: Res) => {
     try {
+        const data: number = Number(req.params.id);
+        const bool: any = await getCategoryService(data);
+
+        if (bool === false) {
+            res.status(404).json({
+                code: "error",
+                message: "A category not found!"
+            })
+        }
         res.status(200).json({
             code: "success",
-            message: "A category create successfully!"
+            data: bool
         })
     } catch (error) {
         console.log(error)
@@ -92,9 +117,17 @@ export const getCategory = async (req: admin, res: Res) => {
 
 export const deleteCategory = async (req: admin, res: Res) => {
     try {
+        const bool: any = deleteCategoryService(Number(req.params.id), Number(req.admin.id));
+
+        if (bool === false) {
+            res.status(404).json({
+                code: "success",
+                message: "A category not found!"
+            })
+        }
         res.status(200).json({
             code: "success",
-            message: "A category create successfully!"
+            message: "A category delete successfully!"
         })
     } catch (error) {
         console.log(error)

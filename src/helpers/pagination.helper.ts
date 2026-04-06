@@ -4,7 +4,7 @@ export const pagination = (page: number, totalItem: number, skip: number, limit:
         skip = (page - 1) * limit;
     } 
     return {
-        totalPage: totalItem,
+        totalPage: totalPage,
         skip: skip,
     }
 }

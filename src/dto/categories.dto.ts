@@ -1,6 +1,7 @@
 export interface categoryDto {
     categoryName: string,
     image?: string,
+    status?: string
 }
 
 // search, status, createdById, updatedById, page
