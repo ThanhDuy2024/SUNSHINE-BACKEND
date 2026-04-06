@@ -1,28 +1,39 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+// Đừng quên cài: npm install dotenv
+require('dotenv').config();
 
-const genAI = new GoogleGenerativeAI(String(process.env.AI_KEY));
+const genAI = new GoogleGenerativeAI(String(process.env.GEMINI_API_KEY) || '');
 
-export const recommendProductAI = async (userInput: string, products: any) => {
+export const recommendProductAI = async (userInput: string, products: any[]) => {
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // 1. Chỉ lọc ra các thông tin cần thiết để tiết kiệm Token
+        const simplifiedProducts = products.map(p => ({
+            name: p.name,
+            price: p.price,
+        }));
+
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-3-flash-preview", // Dùng bản flash cho tốc độ nhanh và rẻ
+            generationConfig: { temperature: 0.7 } // Độ sáng tạo vừa phải
+        });
 
         const prompt = `
-        Bạn là AI gợi ý sản phẩm cho website bán hàng.
+        Bạn là một chuyên gia tư vấn bán hàng thông minh. 
+        Dựa trên danh sách sản phẩm sau: ${JSON.stringify(simplifiedProducts)}
 
-        Danh sách sản phẩm:
-        ${JSON.stringify(products)}
+        Người dùng đang yêu cầu: "${userInput}"
 
-        Người dùng tìm: "${userInput}"
-
-        Hãy chọn sản phẩm phù hợp và giải thích ngắn gọn.
+        Nhiệm vụ:
+        - Chọn ra tối đa 3 sản phẩm phù hợp nhất.
+        - Trả lời bằng tiếng Việt, giọng văn thân thiện.
+        - Với mỗi sản phẩm, nêu rõ lý do tại sao nó phù hợp.
         `;
 
         const result = await model.generateContent(prompt);
-        const response = result.response;
-        return response.text();
+        return result.response.text();
 
     } catch (error) {
-        console.log(error);
-        return false;
+        console.error("Lỗi AI Recommend:", error);
+        return "Xin lỗi, hiện tại tôi không thể đưa ra gợi ý. Vui lòng thử lại sau!";
     }
 }
