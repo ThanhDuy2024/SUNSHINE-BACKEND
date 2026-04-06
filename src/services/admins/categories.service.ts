@@ -3,6 +3,8 @@ import { categoryDto, categoryFilterDto } from "../../dto/categories.dto";
 import { Categories } from "../../Models/Categories.model";
 import { momentFormat } from "../../helpers/moment.helper";
 import { Admin } from "../../Models/Admins.model";
+import { pagination } from "../../helpers/pagination.helper";
+import { any } from "joi";
 
 export const postCategoryService = async (data: categoryDto, adminId: number) => {
     try {
@@ -46,7 +48,9 @@ export const getAllCategoryService = async (filter?:categoryFilterDto) => {
                     attributes: ['id', 'fullName']
                 }
             ],
-            where: {}
+            where: {},
+            offset: 0,
+            limit: filter?.limit,
         }
 
         if(filter?.search !== 'null' && filter?.search) {
@@ -74,7 +78,15 @@ export const getAllCategoryService = async (filter?:categoryFilterDto) => {
                 createdBy: filter.createdById
             }
         }
-        //Lam toi day, con page voi limit
+        
+        const totalCategories = await Categories.count(query);
+        const skip = 0;
+        let objectPagination: any = {}
+        if(filter?.page) {
+            objectPagination = pagination(filter.page, Number(totalCategories), skip, Number(filter.limit));
+            query.offset = objectPagination.skip;
+        }
+
         const categories = await Categories.findAll(query);
 
         const data: any = []
@@ -87,7 +99,10 @@ export const getAllCategoryService = async (filter?:categoryFilterDto) => {
             };
             data.push(rawData);
         }
-        return data;
+        return {
+            data: data,
+            pagination: objectPagination
+        };
     } catch (error) {
         console.log(error);
         return false

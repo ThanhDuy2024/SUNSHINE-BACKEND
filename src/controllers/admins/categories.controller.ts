@@ -44,10 +44,12 @@ export const getAllCategory = async (req: admin, res: Res) => {
             page: Number(req.query.page),
             limit: Number(req.query.limit)
         }
-        const data = await getAllCategoryService(filter);
+        const data: any = await getAllCategoryService(filter);
         res.status(200).json({
             code: "success",
-            message: data
+            data: data.data,
+            totalPage: data.pagination.totalPage
+
         })
     } catch (error) {
         console.log(error)
