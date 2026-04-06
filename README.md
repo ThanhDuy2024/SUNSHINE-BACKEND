@@ -1,63 +1,52 @@
-☀️ SUNSHINE BACKEND
+# <p align="center">☀️ SUNSHINE BACKEND</p>
 
-Hệ thống Backend cho nền tảng thương mại điện tử Sunshine, được xây dựng trên nền tảng Node.js mạnh mẽ, hỗ trợ tích hợp trí tuệ nhân tạo Gemini để gợi ý sản phẩm thông minh.
-🚀 Công nghệ sử dụng
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js" alt="Node.js">
+  <img src="https://img.shields.io/badge/Express.js-4.x-lightgrey?style=for-the-badge&logo=express" alt="Express">
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/pnpm-8.x-orange?style=for-the-badge&logo=pnpm" alt="pnpm">
+</p>
 
-    Runtime: Node.js (v18+)
+<p align="center">
+  <b>Hệ thống Backend thương mại điện tử tích hợp Trí tuệ nhân tạo (AI) 🤖</b>
+  <br />
+  <i>Giải pháp mạnh mẽ, bảo mật và thông minh cho nền tảng Sunshine Shop.</i>
+</p>
 
-    Framework: Express.js
+---
 
-    Language: TypeScript
+## 🌟 Tính năng nổi bật
 
-    Libary: Cloudinary, JsonWebToken, Moment, BcryptJS, Express-rate-limit
+* **AI Smart Recommend:** Tích hợp **Google Gemini 1.5 Flash** để tư vấn sản phẩm thông minh.
+* **Multi-Database:** Sử dụng song song **MySQL (Sequelize)** và **MongoDB (Mongoose)**.
+* **High Security:** Bảo mật hệ thống với **JWT**, **BcryptJS** và **Rate Limit**.
+* **Media Cloud:** Quản lý hình ảnh tập trung qua **Cloudinary**.
+* **Standard Architecture:** Cấu trúc thư mục phân lớp (Layered Architecture) dễ bảo trì.
 
-    Database: MySQL (Sequelize), MongoDB (Mongoose)
+## 🛠️ Stack công nghệ
 
-    AI Integration: Google Gemini API (@google/generative-ai)
+| Thành phần | Công nghệ |
+| :--- | :--- |
+| **Runtime** | Node.js (v18+) |
+| **Framework** | Express.js |
+| **Language** | TypeScript |
+| **Database** | MySQL & MongoDB |
+| **Libraries** | Cloudinary, JWT, Moment, BcryptJS, Express-rate-limit |
+| **AI Integration** | @google/generative-ai (Gemini API) |
+| **Package Manager** | pnpm |
 
-    Package Manager: pnpm
+## 📂 Cấu trúc thư mục `src`
 
-📂 Cấu trúc thư mục (src)
-Plaintext
-
+```bash
 src/
-├── configs/          # Cấu hình Database
-├── constants/        # Định nghĩa các biến hằng số, enum
-├── controllers/      # Xử lý Logic HTTP Request & Response
-├── helpers/          # Các hàm tiện ích dùng chung
-├── interfaces/       # Định nghĩa kiểu dữ liệu (TypeScript Interfaces)
-├── middlewares/      # Kiểm tra Auth, phân quyền, xử lý lỗi
-├── models/           # Định nghĩa Schema Database (Mongoose)
-├── routes/           # Khai báo các API Endpoints
-├── services/         # Xử lý nghiệp vụ chính (Business Logic)
-├── utils/            # Các công cụ hỗ trợ khác
-└── index.ts          # Điểm khởi đầu của ứng dụng
-
-🛠️ Cài đặt và Chạy thử
-1. Clone dự án
-Bash
-
-git clone https://github.com/ThanhDuy2024/SUNSHINE-BACKEND.git
-cd SUNSHINE-BACKEND
-
-2. Cài đặt thư viện
-Bash
-
-pnpm install
-
-3. Chạy ứng dụng
-
-    Chế độ phát triển (Development):
-    Bash
-
-    pnpm dev
-
-    Build dự án:
-    Bash
-
-    pnpm build
-
-    Chạy bản Build:
-    Bash
-
-    pnpm start
+├── ⚙️ configs/      # Cấu hình Database, Cloudinary, Gemini API
+├── 📏 constants/    # Enum, Status Codes, Biến hằng số hệ thống
+├── 🎮 controllers/  # Tiếp nhận và xử lý HTTP Request/Response
+├── 🛠️ helpers/      # Các hàm bổ trợ (Common logic)
+├── 👔 interfaces/   # Định nghĩa Type/Interface cho TypeScript
+├── 🛡️ middlewares/  # Auth Guard, Error Handler, Rate Limiter
+├── 💾 models/       # Định nghĩa Schema (Mongoose & Sequelize)
+├── 🛣️ routes/       # Khai báo các API Endpoints (v1, v2...)
+├── ⚙️ services/     # Xử lý Business Logic chính của hệ thống
+├── 🧪 utils/        # Các công cụ tiện ích (Logger, Format...)
+└── 🚀 index.ts      # File khởi tạo và chạy Server
