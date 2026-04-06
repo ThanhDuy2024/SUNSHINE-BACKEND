@@ -39,14 +39,12 @@
 
 ```bash
 src/
-├── ⚙️ configs/      # Cấu hình Database, Cloudinary, Gemini API
-├── 📏 constants/    # Enum, Status Codes, Biến hằng số hệ thống
+├── ⚙️ configs/      # Cấu hình Database, Cloudinary, Gemini API, Rate Limiter
 ├── 🎮 controllers/  # Tiếp nhận và xử lý HTTP Request/Response
 ├── 🛠️ helpers/      # Các hàm bổ trợ (Common logic)
 ├── 👔 interfaces/   # Định nghĩa Type/Interface cho TypeScript
-├── 🛡️ middlewares/  # Auth Guard, Error Handler, Rate Limiter
+├── 🛡️ middlewares/  # Auth Guard
 ├── 💾 models/       # Định nghĩa Schema (Mongoose & Sequelize)
-├── 🛣️ routes/       # Khai báo các API Endpoints (v1, v2...)
+├── 🛣️ routes/       # Khai báo các API Endpoints
 ├── ⚙️ services/     # Xử lý Business Logic chính của hệ thống
-├── 🧪 utils/        # Các công cụ tiện ích (Logger, Format...)
 └── 🚀 index.ts      # File khởi tạo và chạy Server
