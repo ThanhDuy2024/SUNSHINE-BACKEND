@@ -2,7 +2,6 @@ import { categoryDto, categoryFilterDto } from "../../dto/categories.dto";
 import { admin } from "../../interfaces/admin.interface";
 import { Res } from "../../interfaces/reqAndReq.interface";
 import { deleteCategoryService, getAllCategoryService, getCategoryService, postCategoryService, putCategoryService } from "../../services/admins/categories.service";
-import { deleteAgentService } from "../../services/agents/agentManage.service";
 
 export const postCategory = async (req: admin, res: Res) => {
     try {
