@@ -1,8 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-// Đừng quên cài: npm install dotenv
-require('dotenv').config();
-
-const genAI = new GoogleGenerativeAI(String(process.env.GEMINI_API_KEY) || '');
+import { model } from '../../configs/gemini.config';
 
 export const recommendProductAI = async (userInput: string, products: any[]) => {
     try {
@@ -11,11 +7,6 @@ export const recommendProductAI = async (userInput: string, products: any[]) => 
             name: p.name,
             price: p.price,
         }));
-
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-3-flash-preview", // Dùng bản flash cho tốc độ nhanh và rẻ
-            generationConfig: { temperature: 0.7 } // Độ sáng tạo vừa phải
-        });
 
         const prompt = `
         Bạn là một chuyên gia tư vấn bán hàng thông minh. 
