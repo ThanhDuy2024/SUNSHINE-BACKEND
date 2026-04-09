@@ -10,7 +10,7 @@ import { connectMySQL } from './configs/mySQL.database';
 import { connectMongodb } from './configs/mongodb.database';
 import { limiter } from './configs/rateLimit.config';
 const app = express();
-const port = 4000;
+const port = process.env.PORT;
 connectMongodb();
 connectMySQL();
 

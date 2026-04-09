@@ -1,7 +1,6 @@
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { Req, Res } from "../../interfaces/reqAndReq.interface";
-import { user } from "../../interfaces/user.interface";
 
 export const googleLogin = passport.authenticate("google", {
   scope: ["profile", "email"],

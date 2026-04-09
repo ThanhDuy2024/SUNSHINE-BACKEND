@@ -18,11 +18,12 @@
 ## 🌟 Tính năng nổi bật
 
 * **AI Smart Recommend:** Tích hợp **Google Gemini-3-flash-preview** để tư vấn sản phẩm thông minh.
+* **OAuth 2.0 Authentication:** Đăng nhập bằng **Google**
+* **Media Cloud:** Quản lý hình ảnh tập trung qua **Cloudinary**.
 * **Multi-Database:** Sử dụng song song **MySQL (Sequelize)** và **MongoDB (Mongoose)**.
 * **High Security:** Bảo mật hệ thống với **JWT**, **BcryptJS** và **Rate Limit**.
-* **Media Cloud:** Quản lý hình ảnh tập trung qua **Cloudinary**.
 * **Standard Architecture:** Cấu trúc thư mục phân lớp (Layered Architecture) dễ bảo trì.
-* **OAuth 2.0 Authentication:** Đăng nhập bằng google
+
 
 ## 🛠️ Stack công nghệ
 

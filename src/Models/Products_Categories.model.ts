@@ -4,5 +4,12 @@ import { Products } from "./Products.model";
 
 export const Products_Categories = sequelize.define('products_categories', {}, {timestamps: true});
 
-Products.belongsToMany(Categories, { through: Products_Categories });
-Categories.belongsToMany(Products, { through: Products_Categories });
+Products.belongsToMany(Categories, { 
+  through: Products_Categories,
+  as: 'categories'
+});
+
+Categories.belongsToMany(Products, { 
+  through: Products_Categories,
+  as: 'products'
+});

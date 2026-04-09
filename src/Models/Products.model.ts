@@ -20,6 +20,10 @@ export const Products = sequelize.define('products', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    parameter: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     price: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -51,7 +55,7 @@ Agents.hasMany(Products, {
 
 Products.belongsTo(Agents, {
   foreignKey: 'agentId',
-  as: 'product1'
+  as: 'agentedBy'
 });
 
 Users.hasMany(Products, {
