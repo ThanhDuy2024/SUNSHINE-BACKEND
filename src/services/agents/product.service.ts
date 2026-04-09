@@ -7,6 +7,7 @@ import '../../Models/Products_Categories.model';
 import { agentCheck } from "../../helpers/agent.helper";
 import { pagination } from "../../helpers/pagination.helper";
 import { momentFormat } from "../../helpers/moment.helper";
+import { Products_Categories } from "../../Models/Products_Categories.model";
 export const postProductService = async (data: productDto, userId: number) => {
   try {
     const agent = await Agents.findOne({
@@ -173,8 +174,37 @@ export const getproductService = async (userId: number, productId: number) => {
   }
 }
 
-export const putproductService = async () => {
+export const putProductService = async (userId: number, productId: number, data: productDto) => {
   try {
+    const agent = await agentCheck(userId);
+    const product: any = await Products.findOne({
+      where: {
+        id: productId,
+        status: {
+          [Op.in]: ['active', 'inactive'],
+        },
+        agentId: agent.id,
+      }
+    });
+
+    if(!product) {
+      return false
+    }
+
+
+    await product.update({
+      productName: data.productName,
+      description: data.description,
+      price: data.price,
+      quantity: data.quantity,
+      image: data.image,
+      parameter: data.parameter,
+      updatedBy: userId,
+    });
+
+    if(data.categoryArray.length) {
+      await product.setCategories(data.categoryArray)
+    }
     return true
   } catch (error) {
     console.log(error);
@@ -182,8 +212,35 @@ export const putproductService = async () => {
   }
 }
 
-export const deleteproductService = async () => {
+export const deleteProductService = async (userId: number, productId: number) => {
   try {
+    const agent = await agentCheck(userId);
+
+    const product:any = await Products.findOne({
+      where: {
+        id: productId,
+        agentId: agent.id,
+        status: {
+          [Op.ne]: 'delete'
+        }
+      }
+    });
+
+    if(!product) {
+      return false
+    };
+
+
+    await product.update({
+      status: 'delete',
+      updatedBy: userId
+    });
+
+    await Products_Categories.destroy({
+      where: {
+        productId: productId
+      }
+    })
     return true
   } catch (error) {
     console.log(error);

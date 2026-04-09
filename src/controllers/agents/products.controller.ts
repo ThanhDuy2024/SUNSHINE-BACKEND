@@ -1,6 +1,6 @@
 import { Res } from "../../interfaces/reqAndReq.interface";
 import { user } from "../../interfaces/user.interface";
-import { getAllproductService, getproductService, postProductService } from "../../services/agents/product.service";
+import { getAllproductService, getproductService, postProductService, putProductService, deleteProductService } from "../../services/agents/product.service";
 
 export const postProductController = async (req: user, res: Res) => {
   try {
@@ -62,7 +62,6 @@ export const getAllProductController = async (req: user, res: Res) => {
 
 export const getProductController = async (req: user, res: Res) => {
   try {
-    console.log(req.params.id);
     const bool: any = await getproductService(req.user.id, Number(req.params.id));
     if (bool === false) {
       return res.status(404).json({
@@ -85,6 +84,23 @@ export const getProductController = async (req: user, res: Res) => {
 
 export const putProductController = async (req: user, res: Res) => {
   try {
+    if (req.file) {
+      req.body.image = req.file.path;
+    } else {
+      delete req.body.image;
+    };
+
+    req.body.price = Number(req.body.price);
+    req.body.quantity = Number(req.body.quantity);
+    req.body.categoryArray = JSON.parse(req.body.categoryArray);
+    const bool: any = await putProductService(req.user.id, Number(req.params.id), req.body);
+
+    if (bool === false) {
+      return res.status(404).json({
+        code: "error",
+        message: "Product not found!"
+      })
+    }
     res.status(200).json({
       code: "success",
       message: "Product create successfully!"
@@ -94,6 +110,29 @@ export const putProductController = async (req: user, res: Res) => {
     res.status(400).json({
       code: "error",
       message: "Product create fail!"
+    })
+  }
+}
+
+export const deleteProductController = async (req: user, res: Res) => {
+  try {
+    const bool: any = await deleteProductService(req.user.id, Number(req.params.id));
+
+    if (bool === false) {
+      res.status(404).json({
+        code: "error",
+        message: 'Product not found!'
+      })
+    }
+    res.status(200).json({
+      code: "success",
+      message: 'delete product successfully!'
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      code: "error",
+      message: 'Invalid token'
     })
   }
 }

@@ -9,4 +9,6 @@ const upload = multer({
 route.post('/create', upload.single('image'), productController.postProductController);
 route.get('/list', productController.getAllProductController);
 route.get('/detail/:id', productController.getProductController);
+route.put('/update/:id', upload.single('image'), productController.putProductController);
+route.delete('/delete/:id', productController.deleteProductController);
 export default route;
