@@ -1,4 +1,4 @@
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 import { productDto, productFilterDto } from "../../dto/products.dto";
 import { Agents } from "../../Models/Agent.model";
 import { Categories } from "../../Models/Categories.model";
@@ -68,6 +68,7 @@ export const getAllproductService = async (userId: number, filter: productFilter
     }
 
     const query: any = {
+      distinct: true,
       nest: true,
       where: {
         agentId: agent.id,
@@ -118,11 +119,12 @@ export const getAllproductService = async (userId: number, filter: productFilter
     let paginationF;
     if (filter.page) {
       const totalItem = await Products.count(query);
+      console.log(totalItem);
       paginationF = pagination(filter.page, Number(totalItem), 0, filter.limit);
       query.offset = paginationF.skip;
     }
     const product = await Products.findAll(query);
-
+    console.log(product);
     return {
       product,
       totalPage: paginationF?.totalPage
