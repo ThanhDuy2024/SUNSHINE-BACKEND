@@ -20,10 +20,31 @@ export const Orders = sequelize.define('orders', {
     type: DataTypes.STRING,
     defaultValue: 'unpay'
   },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'inactive'
+  },
+  shippingTime: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0
+  },
+  shippingPrice: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   totalPrice: {
     type: DataTypes.INTEGER,
     allowNull: false
-  }
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   timestamps: true
 })
