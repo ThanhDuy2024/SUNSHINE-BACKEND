@@ -24,14 +24,10 @@ export const Orders = sequelize.define('orders', {
     type: DataTypes.STRING,
     defaultValue: 'inactive'
   },
-  shippingTime: {
+  shippingId: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0
-  },
-  shippingPrice: {
-    type: DataTypes.STRING,
-    allowNull: true
+    allowNull: false,
+    defaultValue: 1
   },
   totalPrice: {
     type: DataTypes.INTEGER,
@@ -55,6 +51,7 @@ Orders.hasMany(OrdersProducts, {
 })
 
 OrdersProducts.belongsTo(Orders, {
+  foreignKey: "orderId",
   as: "orders"
 })
 

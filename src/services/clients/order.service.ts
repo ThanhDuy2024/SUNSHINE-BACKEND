@@ -1,4 +1,4 @@
-import { Op, or } from "sequelize";
+import { Op } from "sequelize";
 import { orderDto } from "../../dto/order.dto";
 import { Products } from "../../Models/Products.model";
 import { Orders } from "../../Models/Orders.model";
@@ -41,7 +41,10 @@ export const postOrderService = async (userId: number, data: orderDto) => {
     const order = await Orders.create({
       userId: userId,
       paymentMethod: data.paymentMethod,
+      email: data.email,
+      phone: data.phone,
       address: data.address,
+      shippingId: data.shippingId,
       totalPrice: totalPrice
     })
 

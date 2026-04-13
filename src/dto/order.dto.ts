@@ -1,6 +1,9 @@
 export interface orderDto {
   paymentMethod: string,
+  email: string,
+  phone: string,
   address: string
+  shippingId: number
   productArray: Array<Record<string, number>>
 }
 
