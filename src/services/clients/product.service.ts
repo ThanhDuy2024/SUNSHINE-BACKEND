@@ -78,9 +78,33 @@ export const getAllProductService = async (filter: Record<string, number>) => {
   }
 }
 
-export const detailProductService = async () => {
+export const detailProductService = async (productId: number) => {
   try {
-    return true
+    console.log(productId);
+    const product = await Products.findOne({
+      nest: true,
+      where: {
+        id: productId,
+        status: 'active',
+      },
+      include: [
+        {
+          model: Agents,
+          as: 'agentedBy',
+          attributes: ['id', 'agentName', 'image']
+        },
+        {
+          model: Categories,
+          as: 'categories',
+          attributes: ['id', 'categoryName']
+        }
+      ]
+    });
+
+    if(!product) {
+      return false
+    }
+    return product
   } catch (error) {
     console.log(error)
     return false

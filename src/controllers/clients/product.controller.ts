@@ -34,10 +34,18 @@ export const getAllProductController = async (req: Req, res: Res) => {
 }
 
 export const detailProductController = async (req: Req, res: Res) => {
-  try {
+  try {    
+    const data: any = await productService.detailProductService(Number(req.params.id));
+
+    if(data === false) {
+      return res.status(404).json({
+        code: "error",
+        message: "Product not found!"
+      })
+    }
     res.status(200).json({
       code: "success",
-      message: "product controller is here"
+      data: data,
     })
   } catch (error) {
     console.log(error)
