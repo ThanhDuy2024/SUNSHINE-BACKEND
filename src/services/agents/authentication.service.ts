@@ -18,7 +18,7 @@ export const registerService = async (data: RegisterDto, userId: number) => {
             address: data.address,
             image: data.image,
             userId: userId,
-        })
+        });
         return true
     } catch (error) {
         console.log(error);

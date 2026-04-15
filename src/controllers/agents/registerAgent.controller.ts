@@ -12,7 +12,7 @@ export const registerAgentController = async (req: user, res: Res) => {
         }
         const data: RegisterDto = req.body;
 
-        const bool: any = registerService(data, req.user.id);
+        const bool: any = await registerService(data, req.user.id);
 
         if (bool === false) {
             return res.status(400).json({

@@ -19,7 +19,7 @@ export const postProductController = async (req: user, res: Res) => {
     if (bool === false) {
       return res.status(400).json({
         code: "error",
-        message: "Product create fail!"
+        message: "Your agent is not active!"
       })
     }
     res.status(200).json({

@@ -10,6 +10,7 @@ import { momentFormat } from "../../helpers/moment.helper";
 import { Products_Categories } from "../../Models/Products_Categories.model";
 export const postProductService = async (data: productDto, userId: number) => {
   try {
+    console.log(data);
     const agent = await Agents.findOne({
       where: {
         userId: userId,
@@ -119,7 +120,6 @@ export const getAllproductService = async (userId: number, filter: productFilter
     let paginationF;
     if (filter.page) {
       const totalItem = await Products.count(query);
-      console.log(totalItem);
       paginationF = pagination(filter.page, Number(totalItem), 0, filter.limit);
       query.offset = paginationF.skip;
     }
