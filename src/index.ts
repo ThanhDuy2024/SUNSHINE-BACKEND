@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
+import cors from 'cors';
 import passport from './configs/auth02.config';
 import adminRoute from "./routes/admins/index.route";
 import clientRoute from './routes/clients/index.route';
@@ -13,12 +14,19 @@ const app = express();
 const port = process.env.PORT;
 connectMongodb();
 connectMySQL();
-
 app.use(passport.initialize());
+
+app.use(cors({
+  origin: String(process.env.PORT_FE),
+  methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(limiter);
+
 app.use('/api/admin', adminRoute);
 app.use('/api/client', clientRoute);
 app.use('/api/agent', agentRoute);

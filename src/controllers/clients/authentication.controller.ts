@@ -67,8 +67,9 @@ export const loginController = async (req: Req, res: Res) => {
 
         const token = jwt.sign({
             id: bool.id,
-            fullName: bool.fullName
-        }, String(process.env.JWT_PASSWORD2));
+            fullName: bool.fullName,
+            role: "client"
+        }, String(process.env.JWT_PASSWORD));
 
         res.cookie("userToken", token, {
             httpOnly: true,

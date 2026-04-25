@@ -54,6 +54,9 @@ export const getAllCategoryService = async (filter?: categoryFilterDto) => {
             },
             offset: 0,
             limit: filter?.limit,
+            order: [
+                ["updatedAt", "DESC"]
+            ]
         }
 
         if (filter?.search !== 'null' && filter?.search) {

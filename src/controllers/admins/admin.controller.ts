@@ -44,13 +44,14 @@ export const loginController = async (req: Req, res: Res) => {
 
         const token = jwt.sign({
             id: bool.id,
-            fullName: bool.fullName
+            fullName: bool.fullName,
+            role: "admin"
         }, String(process.env.JWT_PASSWORD));
 
         res.cookie("adminToken", token, {
             httpOnly: true,
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            secure: String(process.env.ENVIROIMENT) == "dev" ? false : true,
+            secure: false,
             sameSite: "lax",
         });
         res.status(200).json({
