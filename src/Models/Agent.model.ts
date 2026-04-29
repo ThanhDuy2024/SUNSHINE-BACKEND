@@ -26,7 +26,7 @@ export const Agents = sequelize.define('agents', {
     },
     status: {
         type: DataTypes.STRING,
-        defaultValue: 'inactive'
+        defaultValue: 'notAc'
     },
     acceptBy: {
         type: DataTypes.INTEGER,

@@ -5,10 +5,15 @@ import { actionService, getAllAgentService } from "../../services/admins/agentMa
 
 export const getAllAgentController = async (req: admin, res: Res) => {
     try {
-        const data = await getAllAgentService();
+        const status = String(req.query.status)
+        const search = req.query.search
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
+        const data: any = await getAllAgentService(status, search, page, limit);
         res.status(200).json({
             code: "success",
-            data: data
+            data: data.data,
+            totalPage: data.totalPage
         })
     } catch (error) {
         console.log(error);
