@@ -29,15 +29,18 @@ export const postShippingController = async (req: admin, res: Res) => {
 
 export const getAllShippingController = async (req: admin, res: Res) => {
   try {
-    const filter: Record<string, number> = {
+    const filter: Record<string, any> = {
       page: Number(req.query.page),
-      limit: Number(req.query.limit)
+      limit: Number(req.query.limit),
+      search: String(req.query.search),
+      status: String(req.query.status)
     }
 
     const ans: any = await shippingService.getAllShippingController(filter);
     res.status(200).json({
       code: "success",
-      data: ans
+      data: ans.data,
+      totalPage: ans.totalPage
     })
   } catch (error) {
     console.log(error);

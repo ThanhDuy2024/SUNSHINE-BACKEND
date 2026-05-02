@@ -1,5 +1,7 @@
+import { Op } from "sequelize";
 import { shippingDto } from "../../dto/shipping.dto";
 import { momentFormat } from "../../helpers/moment.helper";
+import { pagination } from "../../helpers/pagination.helper";
 import { Admin } from "../../Models/Admins.model";
 import { Shipping } from "../../Models/Shipping.model";
 
@@ -19,10 +21,11 @@ export const postShippingController = async (adminId: number, data: shippingDto)
   }
 }
 
-export const getAllShippingController = async (filter: Record<string, number>) => {
+export const getAllShippingController = async (filter: Record<string, any>) => {
   try {
     const query: any = {
       nest: true,
+      distinct: true,
       where: {},
       order: [
         ['updatedAt', 'desc']
@@ -41,8 +44,28 @@ export const getAllShippingController = async (filter: Record<string, number>) =
         }
       ]
     }
+
+    let paginationFunc: any;
+    if (filter.page) {
+      const totalItem = await Shipping.count(query);
+      paginationFunc = pagination(filter.page, Number(totalItem), 0, filter.limit);
+      query.offset = paginationFunc.skip;
+    }
+
+    if (filter.search !== "null") {
+      query.where.shippingName = {
+        [Op.like]: `%${filter.search}%`
+      }
+    }
+
+    if (filter.status) {
+      query.where.status = filter.status
+    }
     const shipping = await Shipping.findAll(query);
-    return shipping
+    return {
+      data: shipping,
+      totalPage: paginationFunc.totalPage,
+    }
   } catch (error) {
     console.log(error);
     return false
@@ -69,7 +92,7 @@ export const getShippingController = async (shippingId: number) => {
       ]
     })
 
-    if(!shipping) {
+    if (!shipping) {
       return false
     }
 
@@ -91,7 +114,7 @@ export const putShippingController = async (adminId: number, shippingId: number,
       }
     });
 
-    if(!shipping) {
+    if (!shipping) {
       return false
     }
 

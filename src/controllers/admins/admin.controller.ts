@@ -1,4 +1,3 @@
-import { Op } from "sequelize";
 import { loginDto, profileDto, registerDto } from "../../dto/authentication.dto";
 import { admin } from "../../interfaces/admin.interface";
 import { Req, Res } from "../../interfaces/reqAndReq.interface";
@@ -51,8 +50,9 @@ export const loginController = async (req: Req, res: Res) => {
         res.cookie("adminToken", token, {
             httpOnly: true,
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
+            // partitioned: true
         });
         res.status(200).json({
             code: "success",

@@ -17,7 +17,10 @@ connectMySQL();
 app.use(passport.initialize());
 
 app.use(cors({
-  origin: String(process.env.PORT_FE),
+   origin: [
+    "https://sunshine-frontend-pi.vercel.app",
+    "http://localhost:3000",
+  ],
   methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,

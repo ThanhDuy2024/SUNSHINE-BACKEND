@@ -31,7 +31,7 @@ export const getAllAgentService = async (status: string, search: any, page: Numb
             limit: limit,
         }
 
-        if(status === "notAc") {
+        if(status === "notAc" || status === "active" || status === "inactive") {
             query.where.status = status
         } 
 
